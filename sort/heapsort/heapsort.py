@@ -10,24 +10,24 @@ __author__ = 'opportunity356'
 def heapsort(a):
     n = len(a)
     i = n // 2 - 1
-    r = n
+    end_pos = n
     # building a heap
     while i >= 0:
-        push_down(a, i, r)
+        sift_down(a, i, end_pos)
         i -= 1
 
-    r = n - 1
-    while r > 0:
-        a[0], a[r] = a[r], a[0]
-        push_down(a, 0, r)
-        r -= 1
+    end_pos = n - 1
+    while end_pos > 0:
+        a[0], a[end_pos] = a[end_pos], a[0]
+        sift_down(a, 0, end_pos)
+        end_pos -= 1
 
     return a
 
 
-def push_down(a, j, r):
-    while 2 * j + 1 < r:
-        k = max_child(a, j, r)
+def sift_down(a, j, end_pos):
+    while 2 * j + 1 < end_pos:
+        k = max_child(a, j, end_pos)
         if a[j] < a[k]:
             a[j], a[k] = a[k], a[j]
             j = k
@@ -36,10 +36,12 @@ def push_down(a, j, r):
 
 
 def max_child(a, j, r):
-    if 2 * j + 2 < r:
-        if a[2 * j + 2] > a[2 * j + 1]:
-            return 2 * j + 2
-    return 2 * j + 1
+    left_child = 2 * j + 1
+    right_child = left_child + 1
+    max_ch = left_child
+    if right_child < r and a[right_child] > a[left_child]:
+        max_ch = right_child
+    return max_ch
 
 
 def main():
